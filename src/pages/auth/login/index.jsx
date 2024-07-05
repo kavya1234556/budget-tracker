@@ -1,47 +1,11 @@
 import React from "react";
 import InputPassword from "../../../components/input-password";
 import { useNavigate } from "react-router-dom";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-
-const LoginSchema = yup.object().shape({
-  email: yup
-    .string()
-    .required("E-mail is required")
-    .email("Invalid email format"),
-  password: yup
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(12, "Password must be up to 12 characters")
-    .required("Password is required"),
-});
+import useLogin from "./hooks/useLogin";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const Submit = (data) => {
-    const loggedUsers = JSON.parse(localStorage.getItem("user")) || [];
-    if (
-      loggedUsers.email == data.email &&
-      loggedUsers.password == data.password
-    ) {
-      localStorage.setItem("loggedIn", true);
-      navigate("/dashboard");
-    }
-  };
-
+  const { register, handleSubmit, Submit, errors } = useLogin();
   return (
     <main className="flex items-center justify-around h-screen bg-black">
       <div>

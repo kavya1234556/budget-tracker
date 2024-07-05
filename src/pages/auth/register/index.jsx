@@ -1,45 +1,10 @@
 import React from "react";
 import img from "../../../images/img.jpg";
 import InputPassword from "../../../components/input-password";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
-
-const RegisterSchema = yup.object().shape({
-  email: yup
-    .string()
-    .required("E-mail/Username is required")
-    .email("Invalid email format"),
-  username: yup.string().required("Name is Required"),
-  password: yup
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(12, "Password must be up to 12 characters")
-    .required("Password is required"),
-});
+import useRegister from "./hooks/useRegister";
 
 const RegisterPage = () => {
-  const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(RegisterSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      username: "",
-    },
-  });
-
-  function Submit(data) {
-    console.log("Form Data:", data);
-    localStorage.setItem("user", JSON.stringify(data));
-    navigate("/");
-  }
-
+  const { Submit, register, handleSubmit, errors } = useRegister();
   return (
     <div className="flex h-screen items-center">
       <div className="flex w-[80%] h-[90%] justify-center shadow-md mx-auto">
