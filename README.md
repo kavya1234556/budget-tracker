@@ -12,7 +12,6 @@ Node.js, VsCode
 git clone https://github.com/kavya1234556/budget-tracker.git
 
 npm install
-
 npm run start
 
 ```
@@ -21,6 +20,7 @@ The app will be available at [http://localhost:3000/]
 
 ## Project Structure
 
+```bash
 budget-tracker/
 ├── public/
 │ ├── index.html
@@ -68,3 +68,4 @@ budget-tracker/
 ├── README.md
 ├── package-lock.json
 └── tailwind.config.js
+```
