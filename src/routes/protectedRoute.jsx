@@ -5,7 +5,6 @@ import Navbar from "../components/navbar";
 const ProtectedRoute = () => {
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("loggedIn");
-  console.log("🚀 ~ ProtectedRoute ~ isAunthenticated:", isAuthenticated);
   useEffect(() => {
     if (!isAuthenticated) {
       return navigate("/");

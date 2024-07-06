@@ -2,6 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import toast from "react-hot-toast";
 
 const useLogin = () => {
   const navigate = useNavigate();
@@ -30,15 +31,18 @@ const useLogin = () => {
 
   const Submit = (data) => {
     const loggedUsers = JSON.parse(localStorage.getItem("user")) || [];
-    const userDetail = loggedUsers.filter((item) => item.email == data.email);
-    userDetail.map((item) => {
-      if (item.email == data.email && item.password == data.password) {
-        localStorage.setItem("loggedIn", true);
-        localStorage.setItem("user_id", item.id);
-
-        navigate("/dashboard");
-      }
-    });
+    loggedUsers
+      .filter((item) => item.email === data.email)
+      .map((item) => {
+        if (item.email == data.email && item.password == data.password) {
+          localStorage.setItem("loggedIn", true);
+          localStorage.setItem("user_id", item.id);
+          toast.success("Logged In successfully");
+          navigate("/dashboard");
+        } else {
+          toast.error("Invalid email or password");
+        }
+      });
   };
   return { register, handleSubmit, Submit, errors };
 };

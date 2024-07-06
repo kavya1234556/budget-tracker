@@ -67,9 +67,6 @@ const EditAddBudgetPage = () => {
               <option value="income">Income</option>
               <option value="expense">Expense</option>
             </select>
-            {errors.type && (
-              <p className="text-red-500 text-xs mt-1">{errors.type.message}</p>
-            )}
           </div>
           <div>
             <label

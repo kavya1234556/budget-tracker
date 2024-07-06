@@ -1,9 +1,9 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import toast from "react-hot-toast";
 
 const useRegister = () => {
   const navigate = useNavigate();
@@ -33,13 +33,18 @@ const useRegister = () => {
   });
   function Submit(data) {
     const existingData = JSON.parse(localStorage.getItem("user")) || [];
+    const emailExists = existingData.some((user) => user.email === data.email);
+    if (emailExists) {
+      toast.error("Email already exists");
+      return;
+    }
     console.log("Form Data:", data);
     const user_id = uuidv4();
     const newData = { ...data, id: user_id };
-    console.log("🚀 ~ Submit ~ newData:", newData);
     const userRecord = [...existingData, newData];
     localStorage.setItem("user", JSON.stringify(userRecord));
     navigate("/");
+    toast.success("User has been registered");
   }
   return { Submit, register, handleSubmit, errors };
 };

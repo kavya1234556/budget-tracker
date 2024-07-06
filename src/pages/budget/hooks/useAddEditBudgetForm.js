@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const useAddEditBudgetForm = () => {
   const { id } = useParams();
-  console.log("🚀 ~ useAddEditBudgetForm ~ id:", id);
   const navigate = useNavigate();
   const Schema = yup.object().shape({
     name: yup.string().required("Name is required"),
@@ -61,7 +61,6 @@ const useAddEditBudgetForm = () => {
 
   const Submit = (data) => {
     const user_id = localStorage.getItem("user_id");
-    console.log("🚀 ~ Submit ~ user_id:", user_id);
     const existingData = JSON.parse(localStorage.getItem("budgetData")) || [];
     if (id) {
       const updatedData = existingData.map((item) =>
@@ -70,11 +69,13 @@ const useAddEditBudgetForm = () => {
           : item
       );
       localStorage.setItem("budgetData", JSON.stringify(updatedData));
+      toast.success("Transaction Edited Successfully");
     } else {
       const Id = uuidv4();
       const recordWithId = { ...data, id: Id, userId: user_id };
       const updatedData = [...existingData, recordWithId];
       localStorage.setItem("budgetData", JSON.stringify(updatedData));
+      toast.success("Transaction Added Successfully");
     }
     navigate("/budget");
   };
