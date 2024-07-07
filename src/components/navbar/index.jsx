@@ -21,16 +21,10 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex gap-8">
           <a
-            href="/dashboard"
-            className="text-lg font-semibold hover:text-gray-400 transition duration-300"
-          >
-            Dashboard
-          </a>
-          <a
             href="/budget"
             className="text-lg font-semibold hover:text-gray-400 transition duration-300"
           >
-            Budget
+            Dashboard Budget
           </a>
         </div>
         <button

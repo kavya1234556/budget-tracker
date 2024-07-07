@@ -14,7 +14,7 @@ const ProtectedRoute = () => {
   return (
     <div>
       <Navbar />
-      <div className="pl-[196px] pt-[108px] pr-[45px] bg-blue5 pb-[50px]">
+      <div className="p-[50px] bg-gray-100">
         <Outlet />
       </div>
     </div>

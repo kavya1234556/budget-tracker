@@ -31,18 +31,18 @@ const useLogin = () => {
 
   const Submit = (data) => {
     const loggedUsers = JSON.parse(localStorage.getItem("user")) || [];
-    loggedUsers
-      .filter((item) => item.email === data.email)
-      .map((item) => {
-        if (item.email == data.email && item.password == data.password) {
-          localStorage.setItem("loggedIn", true);
-          localStorage.setItem("user_id", item.id);
-          toast.success("Logged In successfully");
-          navigate("/dashboard");
-        } else {
-          toast.error("Invalid email or password");
-        }
-      });
+    const loggedInUser = loggedUsers.find(
+      (user) => user.email === data.email && user.password === data.password
+    );
+
+    if (loggedInUser) {
+      localStorage.setItem("loggedIn", true);
+      localStorage.setItem("user_id", loggedInUser.id);
+      toast.success("Logged In successfully");
+      navigate("/budget");
+    } else {
+      toast.error("Invalid Email or Password");
+    }
   };
   return { register, handleSubmit, Submit, errors };
 };

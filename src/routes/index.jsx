@@ -3,9 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import PublicRoute from "./publicRoute";
 import RegisterPage from "../pages/auth/register";
 import LoginPage from "../pages/auth/login";
-import DashboardPage from "../pages/dashboard";
 import ProtectedRoute from "./protectedRoute";
-import BudgetPage from "../pages/budget";
 import BudgetRoute from "./budgetRoute";
 
 const RouteLayout = () => {
@@ -16,7 +14,6 @@ const RouteLayout = () => {
         <Route path="/register" element={<RegisterPage />} />
       </Route>
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/budget/*" element={<BudgetRoute />} />
       </Route>
       <Route path="*" element={<h1>Not found</h1>} />

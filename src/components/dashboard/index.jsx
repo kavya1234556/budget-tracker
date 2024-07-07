@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const DashboardPage = () => {
+const Dashboard = () => {
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const userId = localStorage.getItem("user_id");
@@ -23,7 +23,7 @@ const DashboardPage = () => {
   return (
     <>
       <div>
-        <div className="flex gap-[10px]">
+        <div className="flex gap-[100px]">
           <div className="border border-dashed border-2 border-sky-500 w-[300px] h-[130px] flex items-center justify-center flex-col">
             <p>
               Total Income:<span>{newData == null ? 0 : income}</span>
@@ -45,4 +45,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default Dashboard;

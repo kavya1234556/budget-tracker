@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import ReactPaginate from "react-paginate";
 import "../../pagination.css";
+import Dashboard from "../../components/dashboard";
+import { DatePicker } from "antd";
+import moment from "moment";
+const { RangePicker } = DatePicker;
 
 const BudgetPage = () => {
   const navigate = useNavigate();
@@ -10,6 +14,8 @@ const BudgetPage = () => {
   const [type, setType] = useState("");
   const [reoccurring, setReoccurring] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
+  const [dates, setDates] = useState([]);
+  console.log("🚀 ~ BudgetPage ~ dates:", dates);
   const itemsPerPage = 3;
 
   const user_id = localStorage.getItem("user_id");
@@ -32,25 +38,26 @@ const BudgetPage = () => {
   const pageCount = Math.ceil(newArray.length / itemsPerPage);
   return (
     <div>
+      <Dashboard />
       <div className="flex justify-end">
         <button
           onClick={() => navigate("/budget/add")}
-          className="rounded bg-gray-100 p-[8px] w-[100px] mt-[20px]"
+          className="rounded bg-gray-400 p-[8px] w-[100px] mt-[20px]"
         >
           +Add New
         </button>
       </div>
       <form>
-        <div className="w-[100%] flex gap-[10px]">
+        <div className="w-[100%] flex items-center gap-[10px]">
           <input
             placeholder="Search by Name"
             onChange={(e) => setSearch(e.target.value)}
             value={search}
-            className="w-[30%]"
+            className="w-[40%] h-[50px] p-[4px]"
           />
           <select
             placeholder="type"
-            className="mt-1 block w-[20%] border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            className="mt-1 block w-[30%] h-[50px] border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             onChange={(e) => setType(e.target.value)}
             value={type}
           >
@@ -60,7 +67,7 @@ const BudgetPage = () => {
           </select>
           <select
             placeholder="reoccurring"
-            className="mt-1 block w-[20%] border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            className="mt-1 block w-[30%] h-[50px] border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             onChange={(e) => setReoccurring(e.target.value)}
             value={reoccurring}
           >
@@ -68,6 +75,16 @@ const BudgetPage = () => {
             <option value="one-time">One Time</option>
             <option value="monthly">Monthly</option>
           </select>
+          <RangePicker
+            className="h-[50px]"
+            onChange={(values) => {
+              setDates(
+                values?.map((item) => {
+                  return item.format();
+                })
+              );
+            }}
+          />
         </div>
       </form>
       <table className="min-w-full bg-white shadow-md rounded mt-[20px]">
@@ -81,6 +98,8 @@ const BudgetPage = () => {
         </thead>
         {currentPageData
           ?.filter((item) => {
+            const itemDate = item.date;
+
             const Search =
               search.toLowerCase() === ""
                 ? item
@@ -88,6 +107,11 @@ const BudgetPage = () => {
             const Type = type === "" || item.type === type;
             const Reoccurring =
               reoccurring === "" || item.reoccurring === reoccurring;
+            if (dates && dates.length >= 2) {
+              const isInDateRange =
+                itemDate >= dates[0] && itemDate <= dates[1];
+              return isInDateRange;
+            }
             return Search && Type && Reoccurring;
           })
           ?.map((item) => (
